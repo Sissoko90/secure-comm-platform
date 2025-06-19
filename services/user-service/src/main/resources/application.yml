@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: user-service
+
+  # Configuration Eureka Client
+  cloud:
+    discovery:
+      enabled: true
+
+  # Configuration base de données
+  datasource:
+    url: jdbc:mysql://localhost:8889/user_data?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+  
+  # Configuration JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  
+  # Validation
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    validation:
+      enabled: true
+  validation:
+    mode: strict
+
+# Configuration Swagger/OpenAPI
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: User Service API
+  show-actuator: true
+  packages-to-scan: com.abdatytch.user_service.controller
+
+# Configuration du serveur
+server:
+  port: 8090
